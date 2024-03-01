@@ -1,0 +1,50 @@
+<!-- my_orders.html -->
+{% extends 'frontend/layout/main.html' %}
+
+{% block title %}My Wish Lists{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>My Wish Lists</h1>
+    {% if user.is_authenticated %}
+    {% if wishlists %}
+    <div class="row mt-3  g-3">
+        {% for item in wishlists%}
+      
+        <div class="col-lg-3">
+            <div class="card">
+                {% if item.Product.image%}
+               
+                <img src="{{item.Product.image.url}}" alt='{{item.product.image}}'>
+                {% else %}
+                <img src="https://www.pngkey.com/png/full/233-2332677_ega-png.png" alt='https://www.pngkey.com/png/full/233-2332677_ega-png.png'>
+                {% endif %}
+
+                <div class="card-body">
+                    <h5 class="card-title">{{item.product.name}}</h5>
+                    <p class="card-text"><strong>Price : </strong>NPR {{item.product.price}}</p>
+                    <a href="/product/{{item.product.id}}" class="btn btn-primary">View Product</a>
+
+                    <form method="POST" action="/remove-from-wishlist/{{ item.id }}">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-12 mt-3">
+                                <div class="">
+                                    <button type="submit" class="btn btn-danger">Remove From WishList</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+   {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-center">List is empty</p>
+    {% endif %}
+    {% else %}
+    <p>Please <a href="/login/">log in</a> to view your orders.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'frontend/layout/main.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Checkout</h2>
+
+    {% if carts %}
+    <ul class="m-0 p-0">
+        {% for item in carts %}
+        <li class="card p-2 m-0  my-3">{{ item.product.name }} - Quantity: {{ item.quantity }} - Price:
+            {{item.line_total}}</li>
+        {% endfor %}
+    </ul>
+    <p>Total Price: NPR {{ total_price|floatformat:2 }}</p>
+
+    <form method="post" action="/checkout/">
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-lg-6">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control my-3" id="name" name="name" required>
+
+                <label for="phone_number">Phone Number:</label>
+                <input type="text" class="form-control my-3" id="phone_number" name="phone_number" required>
+            </div>
+
+            <div class="col-lg-6">
+                <label for="shipping_address">Shipping Address:</label>
+                <textarea type="text" rows="5" class="form-control my-3" id="shipping_address" name="address" required> </textarea>
+
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Place Order</button>
+    </form>
+    {% else %}
+    <p>Your cart is empty.</p>
+    {% endif %}
+</div>
+{% endblock %}

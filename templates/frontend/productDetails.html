@@ -1,0 +1,52 @@
+<!-- product_detail.html -->
+
+{% extends 'frontend/layout/main.html' %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row">
+        <div class="col-md-6">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.title }}">
+            {% else %}
+            <!-- Add a placeholder or default image when product image is None -->
+            <img src="https://cdn.vectorstock.com/i/preview-1x/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg" class="img-fluid" alt="Placeholder Image">
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <h2>{{ product.name }}</h2>
+            <p class="text-muted">{{ product.description }}</p>
+            <p><strong>Price:</strong> ${{ product.price }}</p>
+            <!-- Add other product details as needed -->
+
+            <form method="post" action="/add-to-cart/{{product.id}}">
+                {% csrf_token %}
+                <div class="row">
+                    <label for="quantity">Quantity</label>
+                    <div class="col-lg-4 mt-3">
+                        <div class="mb-3">
+                            <input type="number" name="quantity" id="quantity" class="form-control" value="1" min="1">
+                        </div>
+                    </div>
+                    <div class="col-lg-8 mt-3">
+                        <div class="">
+                            <button type="submit" class="btn btn-primary">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <form method="POST" action="/add-to-wishlist/{{ product.id }}">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-8 mt-3">
+                        <div class="">
+                            <button type="submit" class="btn btn-primary">Add to WishList</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

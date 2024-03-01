@@ -1,0 +1,30 @@
+<!-- my_orders.html -->
+{% extends 'frontend/layout/main.html' %}
+
+{% block title %}My Orders{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>My Orders</h1>
+    {% if user.is_authenticated %}
+    {% if orders %}
+    <div class="list-group mt-4">
+        {% for order in orders %}
+        <div class="list-group-item">
+            <h5 class="mb-1">Order #{{ order.id }}</h5>
+            <p class="mb-1"><strong>Name:</strong> {{ order.name }}</p>
+            <p class="mb-1"><strong>Address:</strong> {{ order.address }}</p>
+            <p class="mb-1"><strong>Phone Number:</strong> {{ order.phone_number }}</p>
+            <p class="mb-1"><strong>Total Order Price:</strong> ${{ order.total_order_price }}</p>
+            <p class="mb-1"><strong>Status:</strong> {{ order.status }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-center">No orders available.</p>
+    {% endif %}
+    {% else %}
+    <p>Please <a href="/login/">log in</a> to view your orders.</p>
+    {% endif %}
+</div>
+{% endblock %}
